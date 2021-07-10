@@ -5,7 +5,7 @@ import {
   ExtractPropTypes,
 } from "vue";
 
-import { buttonProps } from "../../mixins/button";
+import { buttonProps } from "../../compositions/button";
 
 export const btnProps = {
   ...buttonProps,
@@ -13,8 +13,6 @@ export const btnProps = {
   darkPercentage: Boolean,
 };
 
-export type XButtonProps = ExtractPropTypes<typeof btnProps>;
+export type XBtnProps = ExtractPropTypes<typeof btnProps>;
 
-export default QBtn as DefineComponent<
-  ComponentObjectPropsOptions<XButtonProps>
->;
+export default QBtn as DefineComponent<ComponentObjectPropsOptions<XBtnProps>>;

@@ -29,26 +29,26 @@ const buildGutterClass = (
         .join(" ");
 };
 
-export const getGutterClass = (size: GutterSize | GutterProp): string => {
+export const getGutterClass = (size: unknown): string => {
   return buildGutterClass("q-gutter", size);
 };
 
-export const getHorizontalGutterClass = (size: GutterSize): string => {
+export const getHorizontalGutterClass = (size: unknown): string => {
   return buildGutterClass("q-gutter", size, "x");
 };
 
-export const getVerticalGutterClass = (size: GutterSize): string => {
+export const getVerticalGutterClass = (size: unknown): string => {
   return buildGutterClass("q-gutter", size, "y");
 };
 
-export const getColGutterClass = (size: GutterSize | GutterProp): string => {
+export const getColGutterClass = (size: unknown): string => {
   return buildGutterClass("q-col-gutter", size);
 };
 
-export const getColHorizontalGutterClass = (size: GutterSize): string => {
+export const getColHorizontalGutterClass = (size: unknown): string => {
   return buildGutterClass("q-col-gutter", size, "x");
 };
 
-export const getColVerticalGutterClass = (size: GutterSize): string => {
+export const getColVerticalGutterClass = (size: unknown): string => {
   return buildGutterClass("q-col-gutter", size, "y");
 };

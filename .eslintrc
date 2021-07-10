@@ -32,5 +32,6 @@
     "prettier"
   ],
   "rules": {
+      "vue/require-default-prop": "off"
   }
 }

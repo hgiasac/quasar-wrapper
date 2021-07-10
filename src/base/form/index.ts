@@ -2,6 +2,7 @@ import XCheckbox from "./XCheckbox";
 import XColor from "./XColor";
 import XDate from "./XDate";
 import XEditor from "./XEditor";
+import XField from "./XField";
 import XFile from "./XFile";
 import XForm from "./XForm";
 import XInput from "./XInput";
@@ -44,4 +45,5 @@ export {
   XSlider,
   XToggle,
   XFile,
+  XField,
 };

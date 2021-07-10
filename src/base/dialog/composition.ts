@@ -1,10 +1,10 @@
 import { Dialog, DialogChainObject, QDialogOptions } from "quasar";
 
-import { XButtonProps } from "../button/XBtn";
+import { XBtnProps } from "../button/XBtn";
 
 export type XDialogOptions = QDialogOptions & {
-  ok?: boolean | string | Partial<XButtonProps>;
-  cancel?: boolean | string | Partial<XButtonProps>;
+  ok?: boolean | string | Partial<XBtnProps>;
+  cancel?: boolean | string | Partial<XBtnProps>;
 };
 
 export const useConfirm = (opts: XDialogOptions): DialogChainObject => {
