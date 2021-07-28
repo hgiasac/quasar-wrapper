@@ -1,5 +1,7 @@
 import { defineComponent, h } from "vue";
+import { useI18n } from "vue-i18n";
 
+import { XBtn } from "../../base/button";
 import XIcon from "../../base/display/XIcon";
 import XInput, { inputProps } from "../../base/form/XInput";
 import XTime, { timeProps } from "../../base/form/XTime";
@@ -12,12 +14,18 @@ export default defineComponent({
     ...timeProps,
     ...inputProps,
     ...useTransitionProps,
+    input: {
+      type: Boolean,
+      default: true,
+    },
     timeIcon: {
       type: String,
       default: "access_time",
     },
+    btnColor: String,
   },
   setup(props, ctx) {
+    const i18n = useI18n();
     const updateValue = (newValue: string) => {
       ctx.emit("update:modelValue", newValue);
     };
@@ -46,64 +54,86 @@ export default defineComponent({
         timeIcon,
         transitionShow,
         transitionHide,
+        outlined,
+        dense,
+        btnColor,
         ...inputProps
       } = props;
-      return h(
-        XInput,
-        {
-          ...inputProps,
-          mask,
-          color,
-          readonly,
-          disable,
-          modelValue,
-          "onUpdate:modelValue": updateValue,
-        },
-        {
-          append: () =>
-            h(
-              XIcon,
-              {
-                name: timeIcon,
-                class: "cursor-pointer",
-              },
-              [
+
+      const renderTimePicker = () =>
+        h(
+          XPopupProxy,
+          {
+            transitionHide,
+            transitionShow,
+          },
+          [
+            h(XTime, {
+              mask,
+              format24h,
+              defaultDate,
+              options,
+              hourOptions,
+              minuteOptions,
+              secondOptions,
+              withSeconds,
+              nowBtn,
+              locale,
+              calendar,
+              landscape,
+              color,
+              textColor,
+              square,
+              flat,
+              bordered,
+              readonly,
+              disable,
+              modelValue,
+              "onUpdate:modelValue": updateValue,
+            } as unknown),
+          ]
+        );
+      return props.input
+        ? h(
+            XInput,
+            {
+              ...inputProps,
+              mask,
+              color,
+              readonly,
+              disable,
+              outlined,
+              dense,
+              modelValue,
+              "onUpdate:modelValue": updateValue,
+            },
+            {
+              append: () =>
                 h(
-                  XPopupProxy,
+                  XIcon,
                   {
-                    transitionHide,
-                    transitionShow,
+                    name: timeIcon,
+                    class: "cursor-pointer",
                   },
-                  [
-                    h(XTime, {
-                      mask,
-                      format24h,
-                      defaultDate,
-                      options,
-                      hourOptions,
-                      minuteOptions,
-                      secondOptions,
-                      withSeconds,
-                      nowBtn,
-                      locale,
-                      calendar,
-                      landscape,
-                      color,
-                      textColor,
-                      square,
-                      flat,
-                      bordered,
-                      readonly,
-                      disable,
-                      modelValue,
-                      "onUpdate:modelValue": updateValue,
-                    } as unknown),
-                  ]
+                  [renderTimePicker()]
                 ),
-              ]
-            ),
-        }
-      );
+            }
+          )
+        : h(
+            XBtn,
+            {
+              dense,
+              outline: outlined,
+              color: btnColor,
+              disable: disable || readonly,
+              noCaps: true,
+              style: { minWidth: "7rem" },
+            },
+            [
+              modelValue ? i18n.d(modelValue, "time") : "-- : --",
+              renderTimePicker(),
+            ]
+          );
     };
   },
 });

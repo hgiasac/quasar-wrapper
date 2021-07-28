@@ -24,11 +24,11 @@ export default defineComponent({
       type: String,
       default: "YYYY-MM-DD",
     },
-    input: Boolean,
-    btnColor: {
-      type: String,
-      default: "grey",
+    input: {
+      type: Boolean,
+      default: true,
     },
+    btnColor: String,
   },
   setup(props, ctx) {
     const i18n = useI18n();
@@ -175,17 +175,20 @@ export default defineComponent({
               ...ctx.attrs,
               inputClass: {
                 [`${props.inputClass}`]: !!props.inputClass,
-                "cursor-pointer": true,
               } as unknown,
               modelValue,
               "onUpdate:modelValue": updateValue,
             } as unknown,
             {
               append: () =>
-                h(XIcon, {
-                  name: "event",
-                  class: "cursor-pointer",
-                }),
+                h(
+                  XIcon,
+                  {
+                    name: "event",
+                    class: "cursor-pointer",
+                  },
+                  [renderDatePicker()]
+                ),
             }
           )
         : h(

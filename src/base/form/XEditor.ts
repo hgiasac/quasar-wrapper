@@ -31,6 +31,13 @@ export type XEditorDefinition = {
 };
 export type XEditorDefinitions = Record<string, XEditorDefinition>;
 
+export type XEditorToolbarItem =
+  | string
+  | (XEditorDefinition & {
+      list: "no-icons" | "only-icons";
+      options?: string[];
+    });
+
 export type XEditorRef = {
   toggleFullscreen: () => void;
   setFullscreen: () => void;
@@ -41,7 +48,7 @@ export type XEditorRef = {
   getContentEl: () => Element;
 };
 
-export const props = {
+export const useEditorProps = {
   ...useDarkProps,
   ...useFullScreenProps,
   modelValue: String,
@@ -77,5 +84,5 @@ export const props = {
   dense: Boolean,
 };
 export default QEditor as DefineComponent<
-  ComponentObjectPropsOptions<ExtractPropTypes<typeof props>>
+  ComponentObjectPropsOptions<ExtractPropTypes<typeof useEditorProps>>
 >;

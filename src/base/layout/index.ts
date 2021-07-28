@@ -3,6 +3,7 @@ import XDrawer from "./XDrawer";
 import XFooter from "./XFooter";
 import XHeader from "./XHeader";
 import XLayout from "./XLayout";
+import XPage from "./XPage";
 import XPageSticky from "./XPageSticky";
 import XRow from "./XRow";
 import XSpace from "./XSpace";
@@ -20,4 +21,5 @@ export {
   XSpace,
   XSplitter,
   XPageSticky,
+  XPage,
 };
