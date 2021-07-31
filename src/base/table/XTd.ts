@@ -5,10 +5,10 @@ import {
   ExtractPropTypes,
 } from "vue";
 
-import { nativeEventProps } from "../../compositions/props";
+import { useNativeEventProps } from "../../compositions/props";
 
 const props = {
-  ...nativeEventProps,
+  ...useNativeEventProps,
   props: Object,
   autoWidth: Boolean,
   noHover: Boolean,

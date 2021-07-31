@@ -1,13 +1,19 @@
-import { formatISO, format, parse, isValid } from "date-fns/esm";
 import { computed, defineComponent, PropType, h } from "vue";
 import { useI18n } from "vue-i18n";
 
 import XBtn from "../../base/button/XBtn";
-import { XTime, XTimeOptionsFunc, timeProps } from "../../base/form";
+import { XTime, XTimeOptionsFunc, timeProps, XField } from "../../base/form";
 import XDate, { XDateOptionsProp, dateProps } from "../../base/form/XDate";
 import { XRow } from "../../base/layout";
 import { XPopupProxy } from "../../base/popup";
-import { useTransitionProps } from "../../compositions";
+import {
+  useFieldProps,
+  useTransitionProps,
+  XBaseFieldSlots,
+} from "../../compositions";
+import { isValidDate, formatDateISO, formatTime } from "../../utils/date";
+
+export type XInputDateTimeSlots = XBaseFieldSlots;
 
 export default defineComponent({
   name: "XInputDateTime",
@@ -15,24 +21,16 @@ export default defineComponent({
     ...timeProps,
     ...dateProps,
     ...useTransitionProps,
+    ...useFieldProps,
     modelValue: {
       type: String,
       default: null,
     },
-    dateOptions: {
-      type: [Array, Function] as PropType<XDateOptionsProp>,
-      default: null,
-    },
-    timeOptions: {
-      type: Function as PropType<XTimeOptionsFunc>,
-      default: null,
-    },
+    dateOptions: [Array, Function] as PropType<XDateOptionsProp>,
+    timeOptions: Function as PropType<XTimeOptionsFunc>,
     dense: Boolean,
     outline: Boolean,
-    btnColor: {
-      type: String,
-      default: "grey",
-    },
+    btnColor: String,
   },
   setup(props, ctx) {
     const i18n = useI18n();
@@ -41,13 +39,11 @@ export default defineComponent({
     );
     const currentDate = computed({
       get: () =>
-        props.modelValue
-          ? formatISO(new Date(props.modelValue), { representation: "date" })
-          : null,
+        props.modelValue ? formatDateISO(new Date(props.modelValue)) : null,
       set: (newValue: string) => {
         const dt = new Date(props.modelValue);
         const newDate = new Date(newValue);
-        const valid = isValid(dt);
+        const valid = isValidDate(dt);
         ctx.emit(
           "update:modelValue",
           new Date(
@@ -65,15 +61,15 @@ export default defineComponent({
     const currentTime = computed({
       get: () =>
         props.modelValue
-          ? format(new Date(props.modelValue), "HH:mm:ss")
+          ? formatTime(new Date(props.modelValue), props.withSeconds)
           : null,
       set: (newValue: string) => {
-        const dt = new Date(props.modelValue);
-        const newTime = parse(
-          newValue,
-          "HH:mm:ss",
-          isValid(dt) ? dt : new Date()
+        const dt = formatDateISO(
+          isValidDate(props.modelValue)
+            ? new Date(props.modelValue)
+            : new Date()
         );
+        const newTime = new Date(`${dt} ${newValue}`);
 
         ctx.emit("update:modelValue", newTime.toISOString());
       },
@@ -129,126 +125,137 @@ export default defineComponent({
         transitionShow,
         outline,
         btnColor,
+        ...inputProps
       } = props;
 
-      return h(
-        XRow,
-        {
-          class: className,
-          style: style,
-          gutterX: "sm",
-        },
-        [
+      return h(XField, inputProps, {
+        ...ctx.slots,
+        control: () =>
           h(
-            XBtn,
+            XRow,
             {
-              dense,
-              outline,
-              noCaps: true,
-              color: btnColor,
-              disable: disable || readonly,
-              style: { minWidth: "7rem" },
+              class: className,
+              style: style,
+              gutterX: "sm",
             },
-            [
-              modelValue
-                ? i18n.d(modelValue, "shortDate")
-                : datePlaceholder.value,
-              h(
-                XPopupProxy,
-                {
-                  transitionHide,
-                  transitionShow,
-                },
-                [
-                  h(XDate, {
-                    mask: "YYYY-MM-DD",
-                    multiple,
-                    range,
-                    title,
-                    subtitle,
-                    defaultYearMonth,
-                    yearsInMonthView,
-                    events,
-                    eventColor,
-                    emitImmediately,
-                    navigationMaxYearMonth,
-                    navigationMinYearMonth,
-                    noUnset,
-                    firstDayOfWeek,
-                    minimal,
-                    todayBtn,
-                    defaultView,
-                    onNavigation,
-                    onRangeEnd,
-                    onRangeStart,
-                    onInput,
-                    options: dateOptions || options,
-                    locale,
-                    calendar,
-                    landscape,
-                    color,
-                    textColor,
-                    square,
-                    flat,
-                    bordered,
-                    readonly,
-                    disable,
-                    modelValue: currentDate.value,
-                    "onUpdate:modelValue": (value: string) =>
-                      (currentDate.value = value),
-                  } as unknown),
-                ]
-              ),
-            ]
-          ),
-          h(
-            XBtn,
             {
-              outline,
-              noCaps: true,
-              color: btnColor,
-              disable: disable || readonly,
-              style: { minWidth: "7rem" },
-            },
-            [
-              modelValue ? i18n.d(modelValue, "time") : "-- : --",
-              h(
-                XPopupProxy,
-                {
-                  transitionHide,
-                  transitionShow,
-                },
-                [
-                  h(XTime, {
-                    mask: "HH:mm:ss",
-                    format24h,
-                    defaultDate,
-                    options: timeOptions,
-                    hourOptions,
-                    minuteOptions,
-                    secondOptions,
-                    withSeconds,
-                    nowBtn,
-                    locale,
-                    calendar,
-                    landscape,
-                    color,
-                    textColor,
-                    square,
-                    flat,
-                    bordered,
-                    readonly,
-                    disable,
-                    modelValue: currentTime.value,
-                    "onUpdate:modelValue": (value: string) =>
-                      (currentTime.value = value),
-                  } as unknown),
-                ]
-              ),
-            ]
+              default: () => [
+                h(
+                  XBtn,
+                  {
+                    dense,
+                    outline,
+                    noCaps: true,
+                    color: btnColor,
+                    disable: disable || readonly,
+                    style: { minWidth: "7rem" },
+                  },
+                  [
+                    modelValue
+                      ? i18n.d(modelValue, "shortDate")
+                      : datePlaceholder.value,
+                    h(
+                      XPopupProxy,
+                      {
+                        transitionHide,
+                        transitionShow,
+                      },
+                      {
+                        default: () => [
+                          h(XDate, {
+                            mask: "YYYY-MM-DD",
+                            multiple,
+                            range,
+                            title,
+                            subtitle,
+                            defaultYearMonth,
+                            yearsInMonthView,
+                            events,
+                            eventColor,
+                            emitImmediately,
+                            navigationMaxYearMonth,
+                            navigationMinYearMonth,
+                            noUnset,
+                            firstDayOfWeek,
+                            minimal,
+                            todayBtn,
+                            defaultView,
+                            onNavigation,
+                            onRangeEnd,
+                            onRangeStart,
+                            onInput,
+                            options: dateOptions || options,
+                            locale,
+                            calendar,
+                            landscape,
+                            color,
+                            textColor,
+                            square,
+                            flat,
+                            bordered,
+                            readonly,
+                            disable,
+                            modelValue: currentDate.value,
+                            "onUpdate:modelValue": (value: string) =>
+                              (currentDate.value = value),
+                          } as unknown),
+                        ],
+                      }
+                    ),
+                  ]
+                ),
+                h(
+                  XBtn,
+                  {
+                    outline,
+                    noCaps: true,
+                    color: btnColor,
+                    disable: disable || readonly,
+                    style: { minWidth: "7rem" },
+                  },
+                  [
+                    modelValue ? i18n.d(modelValue, "time") : "-- : --",
+                    h(
+                      XPopupProxy,
+                      {
+                        transitionHide,
+                        transitionShow,
+                      },
+                      {
+                        default: () => [
+                          h(XTime, {
+                            mask: "HH:mm:ss",
+                            format24h,
+                            defaultDate,
+                            options: timeOptions,
+                            hourOptions,
+                            minuteOptions,
+                            secondOptions,
+                            withSeconds,
+                            nowBtn,
+                            locale,
+                            calendar,
+                            landscape,
+                            color,
+                            textColor,
+                            square,
+                            flat,
+                            bordered,
+                            readonly,
+                            disable,
+                            modelValue: currentTime.value,
+                            "onUpdate:modelValue": (value: string) =>
+                              (currentTime.value = value),
+                          } as unknown),
+                        ],
+                      }
+                    ),
+                  ]
+                ),
+              ],
+            }
           ),
-        ]
-      );
+      });
     };
   },
 });

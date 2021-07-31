@@ -33,5 +33,6 @@
   ],
   "rules": {
       "vue/require-default-prop": "off"
-  }
+  },
+  "ignorePatterns": ["**/*.spec.ts"]
 }

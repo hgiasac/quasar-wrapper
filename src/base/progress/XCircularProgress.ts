@@ -5,7 +5,7 @@ import {
   ExtractPropTypes,
 } from "vue";
 
-import { nativeEventProps, useSizeProps } from "../../compositions/props";
+import { useNativeEventProps, useSizeProps } from "../../compositions/props";
 
 export const useCircularCommonProps = {
   ...useSizeProps,
@@ -36,7 +36,7 @@ export const useCircularCommonProps = {
 };
 
 const props = {
-  ...nativeEventProps,
+  ...useNativeEventProps,
   ...useCircularCommonProps,
   value: {
     type: Number,

@@ -7,14 +7,14 @@ import {
 
 import {
   useDarkProps,
-  nativeEventProps,
+  useNativeEventProps,
   useSizeProps,
 } from "../../compositions/props";
 
 const props = {
   ...useDarkProps,
   ...useSizeProps,
-  ...nativeEventProps,
+  ...useNativeEventProps,
   value: {
     type: Number,
   },

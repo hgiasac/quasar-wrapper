@@ -6,6 +6,8 @@ import XInputNumber from "./XInputNumber";
 import XInputPassword from "./XInputPassword";
 import XInputTime from "./XInputTime";
 
+export * from "./XInputDateTime";
+
 export {
   XInputColor,
   XInputNumber,

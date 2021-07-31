@@ -20,7 +20,10 @@ export default defineComponent({
           style: props.style,
           ...ctx.attrs,
         },
-        ctx.slots.default ? ctx.slots.default() : [props.text]
+        {
+          default: () =>
+            ctx.slots.default ? ctx.slots.default() : [props.text],
+        }
       );
     };
   },

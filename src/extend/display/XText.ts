@@ -1,7 +1,11 @@
 import { defineComponent, PropType, h } from "vue";
 
 import XSkeleton from "../../base/display/XSkeleton";
-import { useLoadingProps, useStyleProps } from "../../compositions/props";
+import {
+  useLoadingProps,
+  useNativeEventProps,
+  useStyleProps,
+} from "../../compositions/props";
 import { BrandColor } from "../../types";
 
 export const textProps = {
@@ -55,29 +59,40 @@ export default defineComponent({
   name: "XText",
   props: {
     ...useLoadingProps,
+    ...useNativeEventProps,
     ...textProps,
   },
   setup(props, ctx) {
     return () => {
-      const className = [
-        props.type ? `text-${props.type}` : null,
-        buildTextClass(props),
-      ]
+      const {
+        class: classProp,
+        type,
+        loading,
+        text,
+        inline,
+        style,
+        loadingAnimation,
+        ...remainProps
+      } = props;
+      const className = [type ? `text-${type}` : null, buildTextClass(props)]
         .filter((s) => s)
         .join(" ");
 
-      return !props.loading || props.text
+      return !loading || text
         ? h(
-            props.inline ? "span" : "div",
+            inline ? "span" : "div",
             {
-              class: [props.class, className],
-              style: props.style,
+              class: [classProp, className],
+              style: style,
               ...ctx.attrs,
+              ...remainProps,
             },
-            ctx.slots.default ? ctx.slots.default() : props.text
+            {
+              default: ctx.slots.default ? ctx.slots.default() : text,
+            }
           )
         : h(XSkeleton, {
-            animation: props.loadingAnimation,
+            animation: loadingAnimation,
             type: "text",
           });
     };

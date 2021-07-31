@@ -14,5 +14,10 @@
     "isolatedModules": true,
     "outDir": "dist",
     "baseUrl": "./src"
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts"
+  ]
 }

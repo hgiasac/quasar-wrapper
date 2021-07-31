@@ -9,11 +9,11 @@ import {
   useDarkProps,
   useTagProps,
   useRouterLinkProps,
-  nativeEventProps,
+  useNativeEventProps,
 } from "../../compositions/props";
 
 const itemProps = {
-  ...nativeEventProps,
+  ...useNativeEventProps,
   ...useDarkProps,
   ...useRouterLinkProps,
   ...useTagProps,

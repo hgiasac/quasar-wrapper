@@ -5,11 +5,11 @@ import {
   ExtractPropTypes,
 } from "vue";
 
-import { useDarkProps, nativeEventProps } from "../../compositions/props";
+import { useDarkProps, useNativeEventProps } from "../../compositions/props";
 
 const props = {
   ...useDarkProps,
-  ...nativeEventProps,
+  ...useNativeEventProps,
   spaced: [Boolean, String],
   inset: [Boolean, String],
   vertical: Boolean,

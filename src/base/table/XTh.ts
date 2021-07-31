@@ -6,11 +6,11 @@ import {
   PropType,
 } from "vue";
 
-import { nativeEventProps } from "../../compositions/props";
+import { useNativeEventProps } from "../../compositions/props";
 import { TableColumnProps } from "./props";
 
 const props = {
-  ...nativeEventProps,
+  ...useNativeEventProps,
   props: Object as PropType<Partial<TableColumnProps>>,
   autoWidth: Boolean,
 };

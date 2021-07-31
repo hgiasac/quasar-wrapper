@@ -28,6 +28,7 @@ const xOptionsGroupProps = {
   inline: Boolean,
   disable: Boolean,
 };
+
 export default QOptionGroup as DefineComponent<
   ComponentObjectPropsOptions<ExtractPropTypes<typeof xOptionsGroupProps>>
 >;

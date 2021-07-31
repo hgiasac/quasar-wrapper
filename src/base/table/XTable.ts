@@ -9,7 +9,7 @@ import {
 import {
   useDarkProps,
   useFullScreenProps,
-  nativeEventProps,
+  useNativeEventProps,
 } from "../../compositions/props";
 import {
   GetCellValueHandler,
@@ -37,7 +37,7 @@ export type TableRequestHandlerPayload = {
 
 const props = {
   ...useDarkProps,
-  ...nativeEventProps,
+  ...useNativeEventProps,
   ...useFullScreenProps,
   ...tableBodyProps,
   ...tableBottomProps,

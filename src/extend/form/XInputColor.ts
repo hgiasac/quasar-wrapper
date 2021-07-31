@@ -44,21 +44,23 @@ export default defineComponent({
                 name: iconName,
                 class: "cursor-pointer",
               },
-              [
-                h(
-                  XPopupProxy,
-                  {
-                    transitionShow,
-                    transitionHide,
-                  },
-                  [
-                    h(XColor, {
-                      ...remainProps,
-                      "onUpdate:modelValue": updateValue,
-                    }),
-                  ]
-                ),
-              ]
+              {
+                default: () => [
+                  h(
+                    XPopupProxy,
+                    {
+                      transitionShow,
+                      transitionHide,
+                    },
+                    [
+                      h(XColor, {
+                        ...remainProps,
+                        "onUpdate:modelValue": updateValue,
+                      }),
+                    ]
+                  ),
+                ],
+              }
             ),
         }
       );

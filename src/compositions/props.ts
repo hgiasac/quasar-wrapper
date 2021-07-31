@@ -112,7 +112,7 @@ export const useTransitionProps = {
   },
 };
 
-export const nativeEventProps = {
+export const useNativeEventProps = {
   id: String,
   draggable: Boolean,
   onClick: Function as PropType<(ev?: MouseEvent) => void>,

@@ -67,31 +67,33 @@ export default defineComponent({
             transitionHide,
             transitionShow,
           },
-          [
-            h(XTime, {
-              mask,
-              format24h,
-              defaultDate,
-              options,
-              hourOptions,
-              minuteOptions,
-              secondOptions,
-              withSeconds,
-              nowBtn,
-              locale,
-              calendar,
-              landscape,
-              color,
-              textColor,
-              square,
-              flat,
-              bordered,
-              readonly,
-              disable,
-              modelValue,
-              "onUpdate:modelValue": updateValue,
-            } as unknown),
-          ]
+          {
+            default: () => [
+              h(XTime, {
+                mask,
+                format24h,
+                defaultDate,
+                options,
+                hourOptions,
+                minuteOptions,
+                secondOptions,
+                withSeconds,
+                nowBtn,
+                locale,
+                calendar,
+                landscape,
+                color,
+                textColor,
+                square,
+                flat,
+                bordered,
+                readonly,
+                disable,
+                modelValue,
+                "onUpdate:modelValue": updateValue,
+              } as unknown),
+            ],
+          }
         );
       return props.input
         ? h(
@@ -115,7 +117,9 @@ export default defineComponent({
                     name: timeIcon,
                     class: "cursor-pointer",
                   },
-                  [renderTimePicker()]
+                  {
+                    default: () => [renderTimePicker()],
+                  }
                 ),
             }
           )
@@ -129,10 +133,12 @@ export default defineComponent({
               noCaps: true,
               style: { minWidth: "7rem" },
             },
-            [
-              modelValue ? i18n.d(modelValue, "time") : "-- : --",
-              renderTimePicker(),
-            ]
+            {
+              default: () => [
+                modelValue ? i18n.d(modelValue, "time") : "-- : --",
+                renderTimePicker(),
+              ],
+            }
           );
     };
   },

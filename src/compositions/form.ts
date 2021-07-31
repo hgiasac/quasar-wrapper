@@ -8,7 +8,7 @@ export const formProps = {
   name: String,
 };
 
-export const validateProps = {
+export const useValidateProps = {
   value: {},
 
   error: {
@@ -25,7 +25,7 @@ export const validateProps = {
 
 export const useFieldProps = {
   ...useDarkProps,
-  ...validateProps,
+  ...useValidateProps,
   label: String,
   stackLabel: Boolean,
   hint: String,

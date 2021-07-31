@@ -122,44 +122,45 @@ export default defineComponent({
             modelValue: popupOpened.value,
             "onUpdate:modelValue": (value) => (popupOpened.value = value),
           },
-          [
-            h(XDate, {
-              mask,
-              multiple,
-              range,
-              title,
-              subtitle,
-              defaultYearMonth,
-              yearsInMonthView,
-              events,
-              eventColor,
-              emitImmediately,
-              navigationMaxYearMonth,
-              navigationMinYearMonth,
-              noUnset,
-              firstDayOfWeek,
-              minimal,
-              todayBtn,
-              defaultView,
-              onNavigation,
-              onRangeEnd,
-              onRangeStart,
-              onInput,
-              options,
-              locale,
-              calendar,
-              landscape,
-              color,
-              textColor,
-              square,
-              flat,
-              bordered,
-              readonly,
-              disable,
-              modelValue,
-              "onUpdate:modelValue": updateValue,
-            }),
-          ]
+          {
+            default: () =>
+              h(XDate, {
+                mask,
+                multiple,
+                range,
+                title,
+                subtitle,
+                defaultYearMonth,
+                yearsInMonthView,
+                events,
+                eventColor,
+                emitImmediately,
+                navigationMaxYearMonth,
+                navigationMinYearMonth,
+                noUnset,
+                firstDayOfWeek,
+                minimal,
+                todayBtn,
+                defaultView,
+                onNavigation,
+                onRangeEnd,
+                onRangeStart,
+                onInput,
+                options,
+                locale,
+                calendar,
+                landscape,
+                color,
+                textColor,
+                square,
+                flat,
+                bordered,
+                readonly,
+                disable,
+                modelValue,
+                "onUpdate:modelValue": updateValue,
+              }),
+          }
         );
 
       return props.input
@@ -187,7 +188,9 @@ export default defineComponent({
                     name: "event",
                     class: "cursor-pointer",
                   },
-                  [renderDatePicker()]
+                  {
+                    default: renderDatePicker(),
+                  }
                 ),
             }
           )
@@ -201,10 +204,12 @@ export default defineComponent({
               noCaps: true,
               style: { minWidth: "7rem" },
             },
-            [
-              modelValue ? displayDate.value : datePlaceholder.value,
-              renderDatePicker(),
-            ]
+            {
+              default: () => [
+                modelValue ? displayDate.value : datePlaceholder.value,
+                renderDatePicker(),
+              ],
+            }
           );
     };
   },

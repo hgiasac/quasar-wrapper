@@ -15,6 +15,13 @@ export default defineComponent({
   setup(props) {
     const i18n = useI18n();
     return () =>
-      h("span", {}, [props.value ? i18n.d(props.value, props.format) : null]);
+      h(
+        "span",
+        {},
+        {
+          default: () =>
+            props.value ? i18n.d(props.value, props.format) : null,
+        }
+      );
   },
 });

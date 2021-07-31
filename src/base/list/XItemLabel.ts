@@ -5,10 +5,10 @@ import {
   ExtractPropTypes,
 } from "vue";
 
-import { nativeEventProps } from "../../compositions/props";
+import { useNativeEventProps } from "../../compositions/props";
 
 const itemLabelProps = {
-  ...nativeEventProps,
+  ...useNativeEventProps,
   overline: Boolean,
   caption: Boolean,
   header: Boolean,

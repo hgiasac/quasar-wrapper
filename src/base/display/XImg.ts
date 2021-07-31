@@ -6,11 +6,11 @@ import {
   PropType,
 } from "vue";
 
-import { nativeEventProps, useRatioProps } from "../../compositions/props";
+import { useNativeEventProps, useRatioProps } from "../../compositions/props";
 
 export const imgProps = {
   ...useRatioProps,
-  ...nativeEventProps,
+  ...useNativeEventProps,
   src: String,
   srcset: String,
   sizes: String,
