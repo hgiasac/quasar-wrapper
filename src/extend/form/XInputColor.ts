@@ -52,12 +52,14 @@ export default defineComponent({
                       transitionShow,
                       transitionHide,
                     },
-                    [
-                      h(XColor, {
-                        ...remainProps,
-                        "onUpdate:modelValue": updateValue,
-                      }),
-                    ]
+                    {
+                      default: () => [
+                        h(XColor, {
+                          ...remainProps,
+                          "onUpdate:modelValue": updateValue,
+                        }),
+                      ],
+                    }
                   ),
                 ],
               }

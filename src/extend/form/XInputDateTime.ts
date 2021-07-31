@@ -150,59 +150,61 @@ export default defineComponent({
                     disable: disable || readonly,
                     style: { minWidth: "7rem" },
                   },
-                  [
-                    modelValue
-                      ? i18n.d(modelValue, "shortDate")
-                      : datePlaceholder.value,
-                    h(
-                      XPopupProxy,
-                      {
-                        transitionHide,
-                        transitionShow,
-                      },
-                      {
-                        default: () => [
-                          h(XDate, {
-                            mask: "YYYY-MM-DD",
-                            multiple,
-                            range,
-                            title,
-                            subtitle,
-                            defaultYearMonth,
-                            yearsInMonthView,
-                            events,
-                            eventColor,
-                            emitImmediately,
-                            navigationMaxYearMonth,
-                            navigationMinYearMonth,
-                            noUnset,
-                            firstDayOfWeek,
-                            minimal,
-                            todayBtn,
-                            defaultView,
-                            onNavigation,
-                            onRangeEnd,
-                            onRangeStart,
-                            onInput,
-                            options: dateOptions || options,
-                            locale,
-                            calendar,
-                            landscape,
-                            color,
-                            textColor,
-                            square,
-                            flat,
-                            bordered,
-                            readonly,
-                            disable,
-                            modelValue: currentDate.value,
-                            "onUpdate:modelValue": (value: string) =>
-                              (currentDate.value = value),
-                          } as unknown),
-                        ],
-                      }
-                    ),
-                  ]
+                  {
+                    default: () => [
+                      modelValue
+                        ? i18n.d(modelValue, "shortDate")
+                        : datePlaceholder.value,
+                      h(
+                        XPopupProxy,
+                        {
+                          transitionHide,
+                          transitionShow,
+                        },
+                        {
+                          default: () => [
+                            h(XDate, {
+                              mask: "YYYY-MM-DD",
+                              multiple,
+                              range,
+                              title,
+                              subtitle,
+                              defaultYearMonth,
+                              yearsInMonthView,
+                              events,
+                              eventColor,
+                              emitImmediately,
+                              navigationMaxYearMonth,
+                              navigationMinYearMonth,
+                              noUnset,
+                              firstDayOfWeek,
+                              minimal,
+                              todayBtn,
+                              defaultView,
+                              onNavigation,
+                              onRangeEnd,
+                              onRangeStart,
+                              onInput,
+                              options: dateOptions || options,
+                              locale,
+                              calendar,
+                              landscape,
+                              color,
+                              textColor,
+                              square,
+                              flat,
+                              bordered,
+                              readonly,
+                              disable,
+                              modelValue: currentDate.value,
+                              "onUpdate:modelValue": (value: string) =>
+                                (currentDate.value = value),
+                            } as unknown),
+                          ],
+                        }
+                      ),
+                    ],
+                  }
                 ),
                 h(
                   XBtn,
@@ -213,44 +215,46 @@ export default defineComponent({
                     disable: disable || readonly,
                     style: { minWidth: "7rem" },
                   },
-                  [
-                    modelValue ? i18n.d(modelValue, "time") : "-- : --",
-                    h(
-                      XPopupProxy,
-                      {
-                        transitionHide,
-                        transitionShow,
-                      },
-                      {
-                        default: () => [
-                          h(XTime, {
-                            mask: "HH:mm:ss",
-                            format24h,
-                            defaultDate,
-                            options: timeOptions,
-                            hourOptions,
-                            minuteOptions,
-                            secondOptions,
-                            withSeconds,
-                            nowBtn,
-                            locale,
-                            calendar,
-                            landscape,
-                            color,
-                            textColor,
-                            square,
-                            flat,
-                            bordered,
-                            readonly,
-                            disable,
-                            modelValue: currentTime.value,
-                            "onUpdate:modelValue": (value: string) =>
-                              (currentTime.value = value),
-                          } as unknown),
-                        ],
-                      }
-                    ),
-                  ]
+                  {
+                    default: () => [
+                      modelValue ? i18n.d(modelValue, "time") : "-- : --",
+                      h(
+                        XPopupProxy,
+                        {
+                          transitionHide,
+                          transitionShow,
+                        },
+                        {
+                          default: () => [
+                            h(XTime, {
+                              mask: "HH:mm:ss",
+                              format24h,
+                              defaultDate,
+                              options: timeOptions,
+                              hourOptions,
+                              minuteOptions,
+                              secondOptions,
+                              withSeconds,
+                              nowBtn,
+                              locale,
+                              calendar,
+                              landscape,
+                              color,
+                              textColor,
+                              square,
+                              flat,
+                              bordered,
+                              readonly,
+                              disable,
+                              modelValue: currentTime.value,
+                              "onUpdate:modelValue": (value: string) =>
+                                (currentTime.value = value),
+                            } as unknown),
+                          ],
+                        }
+                      ),
+                    ],
+                  }
                 ),
               ],
             }

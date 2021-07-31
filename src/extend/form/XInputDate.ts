@@ -64,12 +64,6 @@ export default defineComponent({
         .join(", ");
     });
 
-    const openPopup = () => {
-      if (!popupOpened.value) {
-        popupOpened.value = true;
-      }
-    };
-
     return () => {
       const {
         multiple,
@@ -169,7 +163,6 @@ export default defineComponent({
             {
               color,
               readonly,
-              onClick: openPopup,
               disable,
               dense,
               ...inputProps,
@@ -189,7 +182,7 @@ export default defineComponent({
                     class: "cursor-pointer",
                   },
                   {
-                    default: renderDatePicker(),
+                    default: () => [renderDatePicker()],
                   }
                 ),
             }
