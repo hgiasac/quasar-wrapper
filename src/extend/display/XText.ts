@@ -87,9 +87,11 @@ export default defineComponent({
               ...ctx.attrs,
               ...remainProps,
             },
-            {
-              default: ctx.slots.default ? ctx.slots.default() : text,
-            }
+            typeof ctx.slots.default === "function"
+              ? ctx.slots
+              : {
+                  default: () => [props.text],
+                }
           )
         : h(XSkeleton, {
             animation: loadingAnimation,

@@ -20,10 +20,11 @@ export default defineComponent({
           style: props.style,
           ...ctx.attrs,
         },
-        {
-          default: () =>
-            ctx.slots.default ? ctx.slots.default() : [props.text],
-        }
+        typeof ctx.slots.default === "function"
+          ? ctx.slots
+          : {
+              default: () => [props.text],
+            }
       );
     };
   },

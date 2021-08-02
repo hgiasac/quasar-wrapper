@@ -49,12 +49,14 @@ export default defineComponent({
           ...tProps,
           color: textColor,
         },
-        [
-          prefix && symbol ? symbol : null,
-          !operator ? null : props.value < 0 ? "" : "+",
-          value ? i18n.n(value) : 0,
-          !prefix && symbol ? " " + symbol : null,
-        ]
+        {
+          default: () => [
+            prefix && symbol ? symbol : null,
+            !operator ? null : props.value < 0 ? "" : "+",
+            value ? i18n.n(value) : 0,
+            !prefix && symbol ? " " + symbol : null,
+          ],
+        }
       );
     };
   },
