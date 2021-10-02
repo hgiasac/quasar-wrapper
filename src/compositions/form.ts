@@ -2,7 +2,12 @@
 import * as CSS from "csstype";
 import { PropType } from "vue";
 
-import { useDarkProps, useMaskProps, useSizeProps } from "./props";
+import {
+  useDarkProps,
+  useMaskProps,
+  useSizeProps,
+  useNativeEventProps,
+} from "./props";
 
 export const formProps = {
   name: String,
@@ -115,6 +120,7 @@ export const nativeInputProps = {
 };
 
 export const baseInputProps = {
+  ...useNativeEventProps,
   ...useFieldProps,
   ...formProps,
   ...useMaskProps,

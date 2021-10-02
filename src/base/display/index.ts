@@ -13,6 +13,7 @@ import XVideo from "./XVideo";
 export * from "./XAvatar";
 export * from "./XBadge";
 export * from "./XImg";
+export * from "./XIcon";
 export * from "./XCard";
 export * from "./XAvatar";
 export * from "./XSkeleton";

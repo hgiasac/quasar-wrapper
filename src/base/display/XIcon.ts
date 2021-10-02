@@ -8,7 +8,7 @@ import {
 
 import { useSizeProps } from "../../compositions/props";
 
-const props = {
+export const useIconProps = {
   ...useSizeProps,
   tag: {
     default: "i",
@@ -21,5 +21,5 @@ const props = {
 };
 
 export default QIcon as DefineComponent<
-  ComponentObjectPropsOptions<ExtractPropTypes<typeof props>>
+  ComponentObjectPropsOptions<ExtractPropTypes<typeof useIconProps>>
 >;

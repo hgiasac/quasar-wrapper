@@ -1,3 +1,5 @@
+import XBar from "./base/XBar";
+import XChatMessage from "./base/XChatMessage";
 import XMenu from "./base/XMenu";
 import XNoSsr from "./base/XNoSsr";
 import XPullToRefresh from "./base/XPullToRefresh";
@@ -23,6 +25,8 @@ export * from "./base/loading";
 export * from "./base/progress";
 export * from "./base/stepper";
 export * from "./base/slide";
+export * from "./base/breadcrumbs";
+export * from "./base/carousel";
 export * from "./base/XNoSsr";
 export * from "./base/XPullToRefresh";
 
@@ -31,4 +35,4 @@ export * from "./extend/display";
 export * from "./types";
 export * from "./compositions";
 
-export { XTree, XMenu, XTooltip, XPullToRefresh, XNoSsr };
+export { XTree, XMenu, XTooltip, XPullToRefresh, XNoSsr, XBar, XChatMessage };
