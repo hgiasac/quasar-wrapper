@@ -1,8 +1,7 @@
-import XAmount from "./XAmount";
-import XDateTimeDisplay from "./XDateTimeDisplay";
-import XLabel from "./XLabel";
-import XText from "./XText";
+import QAmount from "./QAmount";
+import QLabel from "./QLabel";
+import QText from "./QText";
 
-export * from "./XText";
+export * from "./QText";
 
-export { XAmount, XText, XDateTimeDisplay, XLabel };
+export { QAmount, QLabel, QText };

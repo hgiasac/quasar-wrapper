@@ -1,19 +1,21 @@
-import XInputAmount from "./XInputAmount";
-import XInputColor from "./XInputColor";
-import XInputDate from "./XInputDate";
-import XInputDateTime from "./XInputDateTime";
-import XInputNumber from "./XInputNumber";
-import XInputPassword from "./XInputPassword";
-import XInputTime from "./XInputTime";
+import QInputAmount from "./QInputAmount";
+import QInputColor from "./QInputColor";
+import QInputDate from "./QInputDate";
+import QInputDateTime from "./QInputDateTime";
+import QInputNumber from "./QInputNumber";
+import QInputPassword from "./QInputPassword";
+import QInputTime from "./QInputTime";
 
-export * from "./XInputDateTime";
+export * from "./QInputDateTime";
+export * from "./QInputDate";
+export * from "./QInputTime";
 
 export {
-  XInputColor,
-  XInputNumber,
-  XInputPassword,
-  XInputDate,
-  XInputTime,
-  XInputDateTime,
-  XInputAmount,
+  QInputColor,
+  QInputNumber,
+  QInputPassword,
+  QInputDate,
+  QInputTime,
+  QInputDateTime,
+  QInputAmount,
 };

@@ -8,9 +8,10 @@ export type BrandColor =
   | "info"
   | "warning";
 
-export type OptionProps = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type OptionProps<V = any> = {
   label: string;
-  value: any;
+  value: V;
 };
 
 export const BREAKPOINT_XS = 600;
