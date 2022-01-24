@@ -26,10 +26,11 @@ import {
 } from "../../base/props";
 import { isValidDate } from "../../utils/date";
 
-export type QInputDateProps = Partial<QInputProps> &
+export type QInputDateProps = Omit<QInputProps, "modelValue"> &
   QDateProps &
   StyleProps &
   TransactionProps & {
+    modelValue?: string;
     input?: boolean;
     btnColor?: string;
     dateIcon?: string;

@@ -14,10 +14,11 @@ import {
   useTransitionProps,
 } from "../../base/props";
 
-export type QInputColorProps = Partial<QInputProps> &
+export type QInputColorProps = Omit<QInputProps, "modelValue"> &
   QColorProps &
   StyleProps &
   TransactionProps & {
+    modelValue?: string;
     iconName?: string;
     placeholder?: string;
   };

@@ -15,9 +15,10 @@ import { defineComponent, h, onBeforeMount } from "vue";
 import { TransactionProps, useTransitionProps } from "../../base/props";
 import { isValidTime } from "../../utils/date";
 
-export type QInputTimeProps = Partial<QInputProps> &
+export type QInputTimeProps = Omit<QInputProps, "modelValue"> &
   QTimeProps &
   TransactionProps & {
+    modelValue?: string;
     input?: boolean;
     timeIcon?: string;
     btnColor?: string;

@@ -1,7 +1,8 @@
 import { QIcon, QInput, QInputProps } from "quasar";
 import { defineComponent, ref, h } from "vue";
 
-export type QInputPasswordProps = Partial<QInputProps> & {
+export type QInputPasswordProps = Omit<QInputProps, "modelValue"> & {
+  modelValue?: string;
   maskIcon?: string;
   unmaskIcon?: string;
   placeholder?: string;
