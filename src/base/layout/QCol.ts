@@ -11,6 +11,7 @@ import {
 } from "./utils";
 
 export type ColumnSize =
+  | true
   | "auto"
   | 1
   | 2
@@ -56,11 +57,21 @@ export default defineComponent<QColProps>({
         ? null
         : typeof props.size === "object"
         ? Object.keys(props.size)
-            .map((s) =>
-              s === "default"
-                ? `col-${props.size[s]}`
-                : `col-${s}-${props.size[s]}`
-            )
+            .map((s) => {
+              if (s === "default") {
+                return `col-${props.size[s]}`;
+              }
+
+              if (!props.size[s]) {
+                return "";
+              }
+
+              if (props.size[s] === true) {
+                return `col-${s}`;
+              }
+
+              return `col-${s}-${props.size[s]}`;
+            })
             .filter((s) => s)
             .join(" ")
         : `col-${props.size}`,
