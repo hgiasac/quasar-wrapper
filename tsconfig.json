@@ -9,7 +9,7 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "isolatedModules": true,
     "outDir": "dist",
