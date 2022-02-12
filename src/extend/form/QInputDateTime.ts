@@ -41,45 +41,49 @@ export type QInputDateTimeProps = Omit<QTimeProps, "modelValue"> &
 
 export type QInputDateTimeSlots = QInputSlots;
 
-export const useInputDateTimeProps = {
-  ...QTime.props,
-  ...QDate.props,
-  ...QInput.props,
-  ...useTransitionProps,
-  modelValue: {
-    type: String,
-    default: null,
-  },
-  dateOptions: [Array, Function] as PropType<QDateEventsProp>,
-  timeOptions: Function as PropType<QTimeOptionsFunc>,
-  btnColor: String,
-  input: {
-    type: Boolean,
-    default: false,
-  },
-  dateMask: {
-    type: String,
-    default: "YYYY-MM-DD",
-  },
-  timeMask: {
-    type: String,
-    default: "HH:mm",
-  },
-  dateIcon: {
-    type: String,
-    default: "event",
-  },
-  timeIcon: {
-    type: String,
-    default: "access_time",
-  },
-};
+export const useInputDateTimeProps = Object.assign(
+  QTime.props,
+  QDate.props,
+  QInput.props,
+  useTransitionProps,
+  {
+    modelValue: {
+      type: String,
+      default: null,
+    },
+    dateOptions: [Array, Function] as PropType<QDateEventsProp>,
+    timeOptions: Function as PropType<QTimeOptionsFunc>,
+    btnColor: String,
+    input: {
+      type: Boolean,
+      default: false,
+    },
+    dateMask: {
+      type: String,
+      default: "YYYY-MM-DD",
+    },
+    timeMask: {
+      type: String,
+      default: "HH:mm",
+    },
+    dateIcon: {
+      type: String,
+      default: "event",
+    },
+    timeIcon: {
+      type: String,
+      default: "access_time",
+    },
+  }
+);
 
 export default defineComponent<QInputDateTimeProps>({
   name: "QInputDateTime",
   props: useInputDateTimeProps,
   emits: ["update:modelValue"],
   setup(props, ctx) {
+    const dateOpened = ref(false);
+    const timeOpened = ref(false);
     const dateInput = ref("");
     const timeInput = ref("");
 
@@ -251,6 +255,8 @@ export default defineComponent<QInputDateTimeProps>({
           {
             transitionHide,
             transitionShow,
+            modelValue: dateOpened.value,
+            "onUpdate:modelValue": (value) => (dateOpened.value = value),
           },
           {
             default: () => [
@@ -300,6 +306,8 @@ export default defineComponent<QInputDateTimeProps>({
           {
             transitionHide,
             transitionShow,
+            modelValue: timeOpened.value,
+            "onUpdate:modelValue": (value) => (timeOpened.value = value),
           },
           {
             default: () => [
@@ -347,22 +355,26 @@ export default defineComponent<QInputDateTimeProps>({
                     default: () => [
                       h(
                         QInput,
-                        {
-                          color,
-                          readonly,
-                          disable,
-                          dense,
-                          outlined,
-                          flat,
-                          ...inputProps,
-                          ...ctx.attrs,
-                          placeholder: dateMask,
-                          inputClass: {
-                            [`${props.inputClass}`]: !!props.inputClass,
-                          } as unknown,
-                          modelValue: dateInput.value,
-                          "onUpdate:modelValue": updateDateInput,
-                        } as unknown,
+                        Object.assign(
+                          {
+                            color,
+                            readonly,
+                            disable,
+                            dense,
+                            outlined,
+                            flat,
+                          },
+                          inputProps,
+                          ctx.attrs,
+                          {
+                            placeholder: dateMask,
+                            inputClass: {
+                              [`${props.inputClass}`]: !!props.inputClass,
+                            } as unknown,
+                            modelValue: dateInput.value,
+                            "onUpdate:modelValue": updateDateInput,
+                          } as unknown
+                        ),
                         {
                           append: () =>
                             h(
@@ -387,22 +399,26 @@ export default defineComponent<QInputDateTimeProps>({
                     default: () => [
                       h(
                         QInput,
-                        {
-                          color,
-                          readonly,
-                          disable,
-                          dense,
-                          outlined,
-                          flat,
-                          ...inputProps,
-                          ...ctx.attrs,
-                          placeholder: timeMask,
-                          inputClass: {
-                            [`${props.inputClass}`]: !!props.inputClass,
-                          } as unknown,
-                          modelValue: timeInput.value,
-                          "onUpdate:modelValue": updateTimeInput,
-                        } as unknown,
+                        Object.assign(
+                          {
+                            color,
+                            readonly,
+                            disable,
+                            dense,
+                            outlined,
+                            flat,
+                          },
+                          inputProps,
+                          ctx.attrs,
+                          {
+                            placeholder: timeMask,
+                            inputClass: {
+                              [`${props.inputClass}`]: !!props.inputClass,
+                            } as unknown,
+                            modelValue: timeInput.value,
+                            "onUpdate:modelValue": updateTimeInput,
+                          } as unknown
+                        ),
                         {
                           append: () =>
                             h(
@@ -425,12 +441,10 @@ export default defineComponent<QInputDateTimeProps>({
           )
         : h(
             QField,
-            {
-              ...inputProps,
+            Object.assign(inputProps, {
               borderless: true,
-            },
-            {
-              ...ctx.slots,
+            }),
+            Object.assign(ctx.slots, {
               control: () =>
                 h(
                   QRow,
@@ -481,7 +495,7 @@ export default defineComponent<QInputDateTimeProps>({
                     ],
                   }
                 ),
-            }
+            })
           );
     };
   },

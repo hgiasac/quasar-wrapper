@@ -1,10 +1,8 @@
-import { LooseDictionary } from "quasar";
-
-export type ButtonToggleOption<T = unknown> = {
+export type QBtnToggleOption<T = unknown> = {
   /**
    * Key-value for attributes to be set on the button
    */
-  attrs?: LooseDictionary;
+  attrs?: Record<string, unknown>;
   /**
    * Label of option button; Use this prop and/or 'icon', but at least one is required
    */

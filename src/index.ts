@@ -2,8 +2,6 @@ export * from "./base/button";
 export * from "./base/form";
 export * from "./base/layout";
 export * from "./base/props";
-export * from "./base/useNotify";
-export * from "./base/useConfirm";
 export * from "./base/useValidator";
 export * from "./base/useTable";
 

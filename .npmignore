@@ -1,4 +1,6 @@
 node_modules
 src
-
-
+.prettierrc
+.eslintrc
+jest.config.js
+fixup

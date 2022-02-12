@@ -1,19 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "allowJs": false,
     "declaration": true,
-    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": false,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
     "moduleResolution": "node",
-    "isolatedModules": true,
+    "baseUrl": "./src",
+    "module": "esnext",
     "outDir": "dist",
-    "baseUrl": "./src"
+    "target": "esnext"
   },
   "exclude": [
     "node_modules",
