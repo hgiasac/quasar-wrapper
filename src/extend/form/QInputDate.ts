@@ -229,6 +229,11 @@ export default defineComponent<QInputDateProps>({
                     default: () => [renderDatePicker()],
                   }
                 ),
+              before: ctx.slots.before,
+              after: ctx.slots.after,
+              error: ctx.slots.error,
+              hint: ctx.slots.hint,
+              loading: ctx.slots.loading,
             }
           )
         : h(
@@ -254,6 +259,7 @@ export default defineComponent<QInputDateProps>({
                   },
                   {
                     default: () => [renderDatePicker()],
+                    loading: ctx.slots.loading,
                   }
                 ),
             }

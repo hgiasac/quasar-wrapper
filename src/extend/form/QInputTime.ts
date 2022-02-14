@@ -152,6 +152,11 @@ export default defineComponent<QInputTimeProps>({
                     default: () => [renderTimePicker()],
                   }
                 ),
+              before: ctx.slots.before,
+              after: ctx.slots.after,
+              error: ctx.slots.error,
+              hint: ctx.slots.hint,
+              loading: ctx.slots.loading,
             }
           )
         : h(
@@ -180,6 +185,7 @@ export default defineComponent<QInputTimeProps>({
                   } as QBtnProps,
                   {
                     default: () => [renderTimePicker()],
+                    loading: ctx.slots.loading,
                   }
                 ),
             }

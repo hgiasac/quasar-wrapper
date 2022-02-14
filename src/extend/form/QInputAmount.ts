@@ -75,7 +75,13 @@ export default defineComponent<QInputAmountProps>({
           "onUpdate:modelValue": updateValue,
         },
         {
-          ...ctx.slots,
+          prepend: ctx.slots.prepend,
+          append: ctx.slots.append,
+          before: ctx.slots.before,
+          after: ctx.slots.after,
+          label: ctx.slots.label,
+          error: ctx.slots.error,
+          loading: ctx.slots.loading,
           hint: () =>
             h(QAmount, {
               value: props.modelValue,

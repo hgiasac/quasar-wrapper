@@ -387,6 +387,11 @@ export default defineComponent<QInputDateTimeProps>({
                                 default: () => [renderDatePicker()],
                               }
                             ),
+                          before: ctx.slots["date-before"],
+                          after: ctx.slots["date-after"],
+                          error: ctx.slots["date-error"],
+                          hint: ctx.slots["date-hint"],
+                          loading: ctx.slots["date-loading"],
                         }
                       ),
                     ],
@@ -431,6 +436,11 @@ export default defineComponent<QInputDateTimeProps>({
                                 default: () => [renderTimePicker()],
                               }
                             ),
+                          before: ctx.slots["time-before"],
+                          after: ctx.slots["time-after"],
+                          error: ctx.slots["time-error"],
+                          hint: ctx.slots["time-hint"],
+                          loading: ctx.slots["time-loading"],
                         }
                       ),
                     ],
@@ -444,7 +454,7 @@ export default defineComponent<QInputDateTimeProps>({
             Object.assign(inputProps, {
               borderless: true,
             }),
-            Object.assign(ctx.slots, {
+            {
               control: () =>
                 h(
                   QRow,
@@ -473,6 +483,7 @@ export default defineComponent<QInputDateTimeProps>({
                         },
                         {
                           default: () => [renderDatePicker()],
+                          loading: ctx.slots["date-loading"],
                         }
                       ),
                       h(
@@ -490,12 +501,13 @@ export default defineComponent<QInputDateTimeProps>({
                         },
                         {
                           default: () => [renderTimePicker()],
+                          loading: ctx.slots["time-loading"],
                         }
                       ),
                     ],
                   }
                 ),
-            })
+            }
           );
     };
   },
