@@ -5,6 +5,8 @@ const emailPattern =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const phonePattern =
   /\(?\+[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?/;
+const urlPattern =
+  /[-a-zA-Z0-9@:%._+~#=]{1,256}(\.[a-zA-Z0-9()]{1,6})?\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
 export type Translator = {
   t: (key: string, args?: Record<string, unknown>) => string;
@@ -41,6 +43,10 @@ export type UseValidatorRules = {
     max: number,
     message?: string
   ) => (value: number) => boolean | string;
+  url: (
+    allowedSchemes?: string[],
+    message?: string
+  ) => (value: string) => boolean | string;
 };
 
 export const getValidatorRules = (i18n: Translator): UseValidatorRules => {
@@ -148,6 +154,20 @@ export const getValidatorRules = (i18n: Translator): UseValidatorRules => {
       !value || isValidTime(value) || message || i18n.t("rule.time");
   }
 
+  function ruleURL(allowedSchemes?: string[], message?: string) {
+    return (value: string) =>
+      !value ||
+      (urlPattern.test(value) &&
+        (!allowedSchemes?.length ||
+          allowedSchemes.some(
+            (scheme) =>
+              value.slice(0, scheme.length).toLowerCase() ===
+              scheme.toLowerCase()
+          ))) ||
+      message ||
+      i18n.t("rule.url");
+  }
+
   return {
     required: ruleRequired,
     number: ruleNumber,
@@ -161,6 +181,7 @@ export const getValidatorRules = (i18n: Translator): UseValidatorRules => {
     min: ruleMin,
     max: ruleMax,
     between: ruleBetween,
+    url: ruleURL,
   };
 };
 
