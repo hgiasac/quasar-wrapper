@@ -1,14 +1,13 @@
-import { PropType } from "vue";
+import { PropType, StyleValue } from "vue";
 import { RouteLocationRaw } from "vue-router";
 
 import { BrandColor, TransitionType } from "../types";
 
 export type ClassProp = string | Record<string, boolean> | ClassProp[];
-export type StyleProp = string | Record<string, unknown> | StyleProp[];
 
 export type StyleProps = {
   class?: ClassProp;
-  style?: StyleProp;
+  style?: StyleValue;
 };
 
 type AlignProp =
@@ -193,7 +192,7 @@ export const useRatioProps = {
 
 export const useStyleProps = {
   class: [String, Array, Object] as PropType<ClassProp>,
-  style: [String, Array, Object] as PropType<StyleProps>,
+  style: [String, Array, Object] as PropType<StyleValue>,
 };
 
 export type QSkeletonAnimation =
