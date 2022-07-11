@@ -16,6 +16,7 @@ import {
   ref,
   h,
   onBeforeMount,
+  watch,
 } from "vue";
 
 import { QDateRangeValue } from "../../base/form";
@@ -66,44 +67,93 @@ export default defineComponent<QInputDateProps>({
   name: "QInputDate",
   props: useInputDateProps,
   setup(props, ctx) {
+    const inputValue = ref<string>();
     const popupOpened = ref(false);
 
     const updateValue = (newValue: string) => {
       ctx.emit("update:modelValue", newValue);
     };
 
-    const displayDate = computed(() => {
-      if (!props.modelValue) {
-        return "";
+    const updateInputValue = (val: string) => {
+      inputValue.value = val;
+
+      if (!val) {
+        ctx.emit("update:modelValue", null);
+        return;
       }
 
-      const data = Array.isArray(props.modelValue)
-        ? props.modelValue
-        : [props.modelValue];
+      const values = val
+        .split(",")
+        .map((d) => {
+          const dt = d.trim();
+          if (!dt) {
+            return null;
+          }
+          const dates = dt
+            .split("-")
+            .map((edge) => {
+              const trimmed = edge.trim();
+              if (!trimmed) {
+                return null;
+              }
+              if (!isValidDate(trimmed, props.mask)) {
+                return null;
+              }
 
-      return data
-        .map((m) => {
-          if (typeof m !== "object") {
-            return date.formatDate(m, props.mask);
+              const parsedDate = date.extractDate(trimmed, props.mask);
+              return date.formatDate(parsedDate, "YYYY-MM-DD");
+            })
+            .filter((o) => o);
+
+          if (dates.length === 1) {
+            return dates[0];
+          } else if (dates.length > 1) {
+            return {
+              from: dates[0],
+              to: dates[1],
+            };
           }
 
-          return `${date.formatDate(m.from, props.mask)} - ${date.formatDate(
-            m.to,
-            props.mask
-          )}`;
+          return null;
         })
-        .join(", ");
-    });
+        .filter((o) => o);
 
-    onBeforeMount(() => {
-      // format input value on the first load
-      if (isValidDate(props.modelValue)) {
-        ctx.emit(
-          "update:modelValue",
-          date.formatDate(new Date(props.modelValue), props.mask)
-        );
+      ctx.emit("update:modelValue", values);
+    };
+
+    const togglePopup = (value: boolean) => (popupOpened.value = value);
+
+    watch(
+      () => props.modelValue,
+      (newValue) => {
+        if (!newValue) {
+          inputValue.value = null;
+          return;
+        }
+
+        const values = Array.isArray(props.modelValue)
+          ? props.modelValue
+          : [props.modelValue];
+        const newDateString = values
+          .map((m) => {
+            if (typeof m !== "object") {
+              return date.formatDate(m, props.mask);
+            }
+
+            return `${date.formatDate(m.from, props.mask)} - ${date.formatDate(
+              m.to,
+              props.mask
+            )}`;
+          })
+          .join(", ");
+        if (inputValue.value !== newDateString) {
+          inputValue.value = newDateString;
+        }
+      },
+      {
+        immediate: true,
       }
-    });
+    );
 
     return () => {
       const {
@@ -156,12 +206,11 @@ export default defineComponent<QInputDateProps>({
             transitionHide,
             transitionShow,
             modelValue: popupOpened.value,
-            "onUpdate:modelValue": (value) => (popupOpened.value = value),
+            "onUpdate:modelValue": togglePopup,
           },
           {
             default: () =>
               h(QDate, {
-                mask,
                 multiple,
                 range,
                 title,
@@ -214,8 +263,8 @@ export default defineComponent<QInputDateProps>({
               inputClass: {
                 [`${props.inputClass}`]: !!props.inputClass,
               } as unknown,
-              modelValue,
-              "onUpdate:modelValue": updateValue,
+              modelValue: inputValue.value,
+              "onUpdate:modelValue": updateInputValue,
             } as unknown,
             {
               append: () =>
@@ -254,7 +303,7 @@ export default defineComponent<QInputDateProps>({
                     disable: disable || readonly,
                     noCaps: true,
                     style: { minWidth: "7rem" },
-                    label: modelValue ? displayDate.value : props.mask,
+                    label: inputValue.value || props.placeholder || props.mask,
                     iconRight: dateIcon,
                   },
                   {

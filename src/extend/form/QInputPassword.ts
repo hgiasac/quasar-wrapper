@@ -1,12 +1,15 @@
 import { QIcon, QInput, QInputProps } from "quasar";
 import { defineComponent, ref, h } from "vue";
 
-export type QInputPasswordProps = Omit<QInputProps, "modelValue"> & {
-  modelValue?: string;
-  maskIcon?: string;
-  unmaskIcon?: string;
-  placeholder?: string;
-};
+import { StyleProps } from "../../base/props";
+
+export type QInputPasswordProps = Omit<QInputProps, "modelValue"> &
+  StyleProps & {
+    modelValue?: string;
+    maskIcon?: string;
+    unmaskIcon?: string;
+    placeholder?: string;
+  };
 
 export default defineComponent<QInputPasswordProps>({
   name: "QInputPassword",

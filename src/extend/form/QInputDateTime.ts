@@ -13,7 +13,7 @@ import {
   QInputProps,
   QIcon,
 } from "quasar";
-import { computed, defineComponent, PropType, h, ref, watch } from "vue";
+import { defineComponent, PropType, h, ref, watch } from "vue";
 
 import { QTimeOptionsFunc, QDateEventsProp } from "../../base/form";
 import { QCol, QRow } from "../../base/layout";
@@ -22,6 +22,7 @@ import {
   TransactionProps,
   useTransitionProps,
 } from "../../base/props";
+import { isValidDate, isValidTime } from "../../utils/date";
 
 export type QInputDateTimeProps = Omit<QTimeProps, "modelValue"> &
   Omit<QDateProps, "modelValue"> &
@@ -37,6 +38,8 @@ export type QInputDateTimeProps = Omit<QTimeProps, "modelValue"> &
     timeMask?: string;
     dateIcon?: string;
     timeIcon?: string;
+    datePlaceholder?: string;
+    timePlaceholder?: string;
   };
 
 export type QInputDateTimeSlots = QInputSlots;
@@ -74,6 +77,8 @@ export const useInputDateTimeProps = Object.assign(
       type: String,
       default: "access_time",
     },
+    datePlaceholder: String,
+    timePlaceholder: String,
   }
 );
 
@@ -86,12 +91,6 @@ export default defineComponent<QInputDateTimeProps>({
     const timeOpened = ref(false);
     const dateInput = ref("");
     const timeInput = ref("");
-
-    const currentDate = computed(() =>
-      props.modelValue
-        ? date.formatDate(props.modelValue, props.dateMask)
-        : null
-    );
 
     const updateDate = (newValue: string) => {
       const dt = new Date(props.modelValue);
@@ -109,12 +108,6 @@ export default defineComponent<QInputDateTimeProps>({
 
       dateInput.value = newValue;
     };
-
-    const currentTime = computed(() =>
-      props.modelValue
-        ? date.formatDate(new Date(props.modelValue), props.timeMask)
-        : null
-    );
 
     const updateTime = (newValue: string) => {
       const dt = date.formatDate(
@@ -136,10 +129,7 @@ export default defineComponent<QInputDateTimeProps>({
         return;
       }
 
-      if (
-        newValue.length !== props.dateMask.length ||
-        !date.isValid(newValue)
-      ) {
+      if (!isValidDate(newValue, props.dateMask)) {
         return;
       }
       const exDate = date.extractDate(newValue, props.dateMask);
@@ -154,16 +144,15 @@ export default defineComponent<QInputDateTimeProps>({
         return;
       }
 
+      if (!isValidTime(newValue)) {
+        return;
+      }
       const dt = date.formatDate(
         date.isValid(props.modelValue)
           ? new Date(props.modelValue)
           : new Date(),
         "YYYY-MM-DD"
       );
-
-      if (!date.isValid(`${dt} ${newValue}`)) {
-        return;
-      }
 
       const newTime = new Date(`${dt} ${newValue}`);
       ctx.emit("update:modelValue", newTime.toISOString());
@@ -246,6 +235,8 @@ export default defineComponent<QInputDateTimeProps>({
         input,
         dateIcon,
         timeIcon,
+        datePlaceholder,
+        timePlaceholder,
         ...inputProps
       } = props;
 
@@ -293,7 +284,7 @@ export default defineComponent<QInputDateTimeProps>({
                 bordered,
                 readonly,
                 disable,
-                modelValue: currentDate.value,
+                modelValue: props.modelValue,
                 "onUpdate:modelValue": updateDate,
               } as unknown),
             ],
@@ -331,7 +322,7 @@ export default defineComponent<QInputDateTimeProps>({
                 bordered,
                 readonly,
                 disable,
-                modelValue: currentTime.value,
+                modelValue: timeInput.value,
                 "onUpdate:modelValue": updateTime,
               } as unknown),
             ],
@@ -367,7 +358,7 @@ export default defineComponent<QInputDateTimeProps>({
                           inputProps,
                           ctx.attrs,
                           {
-                            placeholder: dateMask,
+                            placeholder: datePlaceholder || dateMask,
                             inputClass: {
                               [`${props.inputClass}`]: !!props.inputClass,
                             } as unknown,
@@ -416,7 +407,7 @@ export default defineComponent<QInputDateTimeProps>({
                           inputProps,
                           ctx.attrs,
                           {
-                            placeholder: timeMask,
+                            placeholder: timePlaceholder || timeMask,
                             inputClass: {
                               [`${props.inputClass}`]: !!props.inputClass,
                             } as unknown,
@@ -475,9 +466,10 @@ export default defineComponent<QInputDateTimeProps>({
                           readonly,
                           flat,
                           iconRight: dateIcon,
-                          label: modelValue
-                            ? date.formatDate(modelValue, props.dateMask)
-                            : dateMask,
+                          label:
+                            dateInput.value ||
+                            datePlaceholder ||
+                            props.dateMask,
                           disable: disable || readonly,
                           style: { minWidth: "7rem" },
                         },
@@ -495,7 +487,8 @@ export default defineComponent<QInputDateTimeProps>({
                           iconRight: timeIcon,
                           noCaps: true,
                           color: btnColor,
-                          label: modelValue ? currentTime.value : "-- : --",
+                          label:
+                            timeInput.value || timePlaceholder || "-- : --",
                           disable: disable || readonly,
                           style: { minWidth: "7rem" },
                         },

@@ -1,39 +1,49 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { QSkeleton } from "quasar";
-import { defineComponent, PropType, h } from "vue";
+import { defineComponent, PropType, h, ExtractPropTypes } from "vue";
 
 import { useLoadingProps, useStyleProps } from "../../base/props";
 import { BrandColor } from "../../types";
 
+export type TextType =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "subtitle1"
+  | "subtitle2"
+  | "body1"
+  | "body2"
+  | "caption"
+  | "overline";
+export type TextTransform = "uppercase" | "lowercase" | "capitalize";
+export type TextFontWeight =
+  | "thin"
+  | "light"
+  | "regular"
+  | "medium"
+  | "bold"
+  | "bolder";
+export type TextAlignment = "left" | "right" | "center" | "justify";
+
 export const useTextProps = {
   ...useStyleProps,
   text: String,
-  type: String as PropType<
-    | "h1"
-    | "h2"
-    | "h3"
-    | "h4"
-    | "h5"
-    | "h6"
-    | "subtitle1"
-    | "subtitle2"
-    | "body1"
-    | "body2"
-    | "caption"
-    | "overline"
-  >,
+  type: String as PropType<TextType>,
   color: String as PropType<BrandColor | string>,
   inline: Boolean,
-  fontWeight: String as PropType<
-    "thin" | "light" | "regular" | "medium" | "bold" | "bolder"
-  >,
+  fontWeight: String as PropType<TextFontWeight>,
   bold: Boolean,
   italic: Boolean,
-  align: String as PropType<"left" | "right" | "center" | "justify">,
+  align: String as PropType<TextAlignment>,
   noWrap: Boolean,
   strike: Boolean,
-  transform: String as PropType<"uppercase" | "lowercase" | "capitalize">,
+  transform: String as PropType<TextTransform>,
 };
+
+export type QTextProps = ExtractPropTypes<typeof useTextProps>;
 
 export const buildTextClass = (props: Record<string, unknown>): string => {
   return [

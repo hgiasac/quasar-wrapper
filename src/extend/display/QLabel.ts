@@ -1,16 +1,20 @@
-import { defineComponent, h } from "vue";
+import { defineComponent, ExtractPropTypes, h } from "vue";
 
 import QText, { useTextProps } from "./QText";
 
+export const useLabelProps = {
+  ...useTextProps,
+  for: {
+    type: String,
+    default: null,
+  },
+};
+
+export type QLabelProps = ExtractPropTypes<typeof useLabelProps>;
+
 export default defineComponent({
   name: "QLabel",
-  props: {
-    ...useTextProps,
-    for: {
-      type: String,
-      default: null,
-    },
-  },
+  props: useLabelProps,
   setup(props, ctx) {
     return () => {
       const { class: className, ...rest } = props;

@@ -1,29 +1,33 @@
-import { defineComponent, h, PropType } from "vue";
+import { defineComponent, ExtractPropTypes, h, PropType } from "vue";
 
 import XText, { useTextProps } from "./QText";
 
+export const useAmountProps = {
+  ...useTextProps,
+  value: {
+    type: Number,
+    required: true,
+  },
+  symbol: String,
+  prefix: Boolean,
+  operator: Boolean,
+  highlight: Boolean,
+  numberFormat: Function as PropType<(val: number) => string>,
+  colorPositive: {
+    type: String,
+    default: "positive",
+  },
+  colorNegative: {
+    type: String,
+    default: "negative",
+  },
+};
+
+export type QAmountProps = ExtractPropTypes<typeof useAmountProps>;
+
 export default defineComponent({
   name: "QAmount",
-  props: {
-    ...useTextProps,
-    value: {
-      type: Number,
-      required: true,
-    },
-    symbol: String,
-    prefix: Boolean,
-    operator: Boolean,
-    highlight: Boolean,
-    numberFormat: Function as PropType<(val: number) => string>,
-    colorPositive: {
-      type: String,
-      default: "positive",
-    },
-    colorNegative: {
-      type: String,
-      default: "negative",
-    },
-  },
+  props: useAmountProps,
   setup(props) {
     const numberFormat =
       typeof props?.numberFormat == "function"

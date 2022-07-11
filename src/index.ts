@@ -8,3 +8,6 @@ export * from "./base/useTable";
 export * from "./extend/form";
 export * from "./extend/display";
 export * from "./types";
+export * from "./lang";
+
+export * from "./utils/date";
