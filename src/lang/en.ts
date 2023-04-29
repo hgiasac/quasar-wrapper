@@ -21,6 +21,7 @@ export default {
     length_between: "Require %{min} to %{max} characters",
     max: "The value must be less than or equal to %{max}",
     min: "The value must be greater than or equal to %{min}",
+    integer: "The value must be an integer",
     number: "The value must be a number",
     password: "Require from %{range} characters",
     password_extra:

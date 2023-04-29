@@ -21,6 +21,7 @@ export default {
     length_between: "Yêu cầu từ %{min} đến %{max} ký tự",
     max: "Giá trị phải nhỏ hơn hoặc bằng %{max}",
     min: "Giá trị phải lớn hơn hoặc bằng %{min}",
+    integer: "Giá trị phải là số nguyên",
     number: "Chữ số không hợp lệ",
     password: "Yêu cầu từ %{range} ký tự",
     password_extra: "Yêu cầu từ %{range} ký tự, có ít nhất một %{rules}",

@@ -15,8 +15,12 @@ test("test useValidator", () => {
   expect(validator.number("number")(0)).toBe(true);
   expect(validator.number("number")("")).toBe(true);
   expect(validator.number("number")(undefined)).toBe(true);
+  expect(validator.number("number")(-10)).toBe(true);
   expect(validator.number("number")(10)).toBe(true);
+  expect(validator.number("number")(10.5)).toBe(true);
+  expect(validator.number("number")("-10")).toBe(true);
   expect(validator.number("number")("10")).toBe(true);
+  expect(validator.number("number")("10.5")).toBe(true);
   expect(validator.number("number")("abc")).toBe("number");
 
   expect(validator.email(null, "email")(null)).toBe(true);
@@ -39,11 +43,17 @@ test("test useValidator", () => {
   expect(validator.min(0, "min")("")).toBe(true);
   expect(validator.min(10, "min")(0)).toBe("min");
   expect(validator.min(10, "min")(10)).toBe(true);
+  expect(validator.min(10, "min")("0")).toBe("min");
+  expect(validator.min(10, "min")("abc")).toBe("min");
+  expect(validator.min(10, "min")("10")).toBe(true);
 
   expect(validator.max(0, "max")(null)).toBe(true);
   expect(validator.max(0, "max")("")).toBe(true);
   expect(validator.max(10, "max")(11)).toBe("max");
   expect(validator.max(10, "max")(10)).toBe(true);
+  expect(validator.max(10, "max")("11")).toBe("max");
+  expect(validator.max(10, "max")("10")).toBe(true);
+  expect(validator.min(10, "max")("abc")).toBe("max");
 
   expect(validator.between(0, 1, "between")(null)).toBe(true);
   expect(validator.between(0, 1, "between")("")).toBe(true);

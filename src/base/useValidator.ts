@@ -2,7 +2,8 @@ import { date } from "quasar";
 
 import { createDate, isValidDate, isValidTime } from "../utils/date";
 
-const numberPattern = /^[0-9]*$/;
+const integerPattern = /^-?[0-9]+$/;
+const numberPattern = /^-?[0-9][0-9\\.]*$/;
 const emailPattern =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const phonePattern =
@@ -14,6 +15,14 @@ const youtubePattern =
 
 export const isEmpty = (val: unknown) =>
   val === null || val === undefined || val === "";
+
+const parseNumberOrDefault = (value: string, defaultValue: number): number => {
+  try {
+    return parseFloat(value);
+  } catch {
+    return defaultValue;
+  }
+};
 
 export type Translator = {
   t: (key: string, args?: Record<string, unknown>) => string;
@@ -38,6 +47,7 @@ export type PasswordRuleOptions = {
 
 export type UseValidatorRules = {
   required: ValidatorRuleFunction;
+  integer: ValidatorRuleFunction;
   number: ValidatorRuleFunction;
   email: (
     acceptedDomains?: null | string[],
@@ -202,6 +212,15 @@ export const getValidatorRules = (
       i18n.t("rule.length_between", { min, max });
   }
 
+  function ruleInteger(message?: string) {
+    return (value: number | string) =>
+      isEmpty(value) ||
+      typeof value === "number" ||
+      (typeof value === "string" && integerPattern.test(value)) ||
+      message ||
+      i18n.t("rule.number");
+  }
+
   function ruleNumber(message?: string) {
     return (value: number | string) =>
       isEmpty(value) ||
@@ -212,9 +231,11 @@ export const getValidatorRules = (
   }
 
   function ruleMin(min: number, message?: string) {
-    return (value: number) =>
+    return (value: number | string) =>
       isEmpty(value) ||
       (typeof value === "number" && value >= min) ||
+      (typeof value === "string" &&
+        parseNumberOrDefault(value, Number.MIN_VALUE) >= min) ||
       message ||
       i18n.t("rule.min", { min });
   }
@@ -223,6 +244,8 @@ export const getValidatorRules = (
     return (value: number) =>
       isEmpty(value) ||
       (typeof value === "number" && value <= max) ||
+      (typeof value === "string" &&
+        parseNumberOrDefault(value, Number.MAX_VALUE) <= max) ||
       message ||
       i18n.t("rule.max", { max });
   }
@@ -432,6 +455,7 @@ export const getValidatorRules = (
   return {
     required: ruleRequired,
     number: ruleNumber,
+    integer: ruleInteger,
     maxLength: ruleMaxLength,
     minLength: ruleMinLength,
     betweenLength: ruleBetweenLength,
